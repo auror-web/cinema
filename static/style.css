@@ -1,0 +1,53 @@
+:root {
+  --cinema-dark: #101827;
+  --cinema-gold: #f4bd52;
+}
+
+body {
+  color: #202938;
+}
+
+.navbar,
+footer,
+header.bg-dark {
+  background-color: var(--cinema-dark) !important;
+}
+
+.navbar-brand .text-warning,
+header .text-warning {
+  color: var(--cinema-gold) !important;
+}
+
+.navbar .nav-link {
+  color: #d7dde7;
+}
+
+.navbar .nav-link:hover {
+  color: var(--cinema-gold);
+}
+
+.card {
+  border: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgb(16 24 39 / 15%) !important;
+}
+
+.card-img-top {
+  object-fit: cover;
+}
+
+.btn-primary {
+  background-color: var(--cinema-dark);
+  border-color: var(--cinema-dark);
+}
+
+.btn-primary:hover {
+  background-color: #263a5c;
+  border-color: #263a5c;
+}
