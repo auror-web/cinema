@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block titolo %}{{ film.titolo }} - Cinema Aurora{% endblock %}
+{% block contenuto %} 
+<div class="row mb-5">
+    <!--locandina-->
+    <div class="col-md-4">
+    <img
+            src="{{ film.locandina_url }}"
+            class="img-fluid"
+            alt="Locandina di {{ film.titolo }}"
+            style="height: 320px; object-fit: cover;"
+    >
+    </div>
+
+    <!-- titolo, regista, genere, durata, trama.-->
+     <div class="col-md-8">
+
+     </div>
+</div>
+
+{% endblock %}.
+
