@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block titolo %}
+  {{ spettacolo.titolo }} · Cinema Aurora
+{% endblock %}
+
+{% block contenuto %}
+
+{% set totale = spettacolo.posti | int %}
+{% set venduti = bigliettI | int %}
+{% set liberi = [totale - venduti, 0] | max %}
+{% set percentuale = (venduti / totale * 100) if totale > 0 else 0 %}
+{% set percentuale = [percentuale, 100] | min %}
+
+<p class="eyebrow">SPETTACOLO E BIGLIETTI</p>
+<h1 class="fw-bold mb-4">{{ spettacolo.titolo }}</h1>
+
+<section class="card detail-card shadow-sm">
+  <div class="card-body p-4">
+
+    <p>
+      <strong>Data e ora:</strong>
+      {{ spettacolo.data_ora.strftime('%d/%m/%Y alle %H:%M') }}
+    </p>
+
+    <p>
+      <strong>Sala:</strong>
+      {{ spettacolo.nome_sala }}
+    </p>
+
+    <p>
+      <strong>Prezzo:</strong>
+      € {{ ('%.2f' | format(spettacolo.prezzo)) | replace('.', ',') }}
+    </p>
+
+    <hr>
+
+    <div class="row text-center mb-4">
+      <div class="col-6">
+        <div class="display-4 fw-bold">{{ venduti }}</div>
+        <p class="text-secondary">Posti venduti</p>
+      </div>
+
+      <div class="col-6">
+        <div class="display-4 fw-bold text-success">{{ liberi }}</div>
+        <p class="text-secondary">Posti liberi</p>
+      </div>
+    </div>
+
+    <p class="mb-2">
+      Riempimento:
+      <strong>{{ percentuale | round(1) }}%</strong>
+    </p>
+
+    <div class="progress mb-4"
+         style="height: 24px;"
+         role="progressbar"
+         aria-label="Riempimento della sala"
+         aria-valuenow="{{ percentuale }}"
+         aria-valuemin="0"
+         aria-valuemax="100">
+
+      <div class="progress-bar
+                  {% if liberi == 0 %}bg-danger
+                  {% elif liberi < 5 %}bg-warning
+                  {% else %}bg-success{% endif %}"
+           style="width: {{ percentuale }}%;">
+      </div>
+    </div>
+
+    {% if liberi > 0 %}
+
+      {% if liberi < 5 %}
+        <div class="alert alert-warning" role="alert">
+          Ultimi posti!
+        </div>
+      {% endif %}
+
+      <a class="btn btn-success btn-lg"
+         href="{{ url_for('acquista', id_spettacolo=spettacolo.id_spettacolo) }}">
+        Acquista 1 biglietto
+      </a>
+
+    {% else %}
+
+      <span class="badge bg-danger fs-5">ESAURITO</span>
+
+    {% endif %}
+
+  </div>
+</section>
+
