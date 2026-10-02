@@ -9,22 +9,25 @@
   <div class="col-md-4">
     <div class="card p-3 mb-2">
       <h2 class="h5">Biglietti venduti</h2>
-      <p class="fs-3">{{ totali.biglietti }}</p>
+      <p class="fs-3">{{ totali.totale_biglietti }}</p>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="card p-3 mb-2">
       <h2 class="h5">Incasso totale</h2>
-      <p class="fs-3">€ {{ totali.incasso }}</p>
+      <p class="fs-3">€ {{ totali.incasso_totale }}</p>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="card p-3 mb-2">
       <h2 class="h5">Film più visto</h2>
-      {% if piu_visto %}
-        <p>{{ piu_visto.titolo }} ({{ piu_visto.biglietti }} biglietti)</p>
+      {% if incassi and incassi[0].biglietti_venduti > 0 %}
+        <p>
+          {{ incassi[0].titolo }}
+          ({{ incassi[0].biglietti_venduti }} biglietti)
+        </p>
       {% else %}
         <p>Nessun biglietto venduto</p>
       {% endif %}
@@ -44,12 +47,16 @@
     </tr>
   </thead>
   <tbody>
-    {% for riga in per_film %}
+    {% for riga in incassi %}
       <tr>
         <td>{{ loop.index }}</td>
         <td>{{ riga.titolo }}</td>
-        <td>{{ riga.biglietti }}</td>
+        <td>{{ riga.biglietti_venduti }}</td>
         <td>€ {{ riga.incasso }}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="4">Nessun film disponibile.</td>
       </tr>
     {% endfor %}
   </tbody>
@@ -61,21 +68,19 @@
   <thead>
     <tr>
       <th>Film</th>
-      <th>Data</th>
       <th>Sala</th>
       <th>Posti venduti</th>
       <th>Riempimento</th>
     </tr>
   </thead>
   <tbody>
-    {% for s in riempimenti %}
+    {% for s in riempimento %}
       <tr>
         <td>
-          <a href="{{ url_for('pagina_spettacolo', id_spettacolo=s.id_spettacolo) }}">
+          <a href="{{ url_for('spettacolo', id_spettacolo=s.id_spettacolo) }}">
             {{ s.titolo }}
           </a>
         </td>
-        <td>{{ s.data_ora.strftime('%d/%m/%Y %H:%M') }}</td>
         <td>{{ s.nome_sala }}</td>
         <td>{{ s.venduti }} su {{ s.posti }}</td>
         <td>
@@ -88,7 +93,7 @@
       </tr>
     {% else %}
       <tr>
-        <td colspan="5">Non ci sono ancora biglietti venduti.</td>
+        <td colspan="4">Nessuno spettacolo disponibile.</td>
       </tr>
     {% endfor %}
   </tbody>
