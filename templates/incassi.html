@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block titolo %}Incassi - Cinema Aurora{% endblock %}
+
+{% block contenuto %}
+<h1>Incassi e statistiche</h1>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card p-3 mb-2">
+      <h2 class="h5">Biglietti venduti</h2>
+      <p class="fs-3">{{ totali.biglietti }}</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3 mb-2">
+      <h2 class="h5">Incasso totale</h2>
+      <p class="fs-3">€ {{ totali.incasso }}</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3 mb-2">
+      <h2 class="h5">Film più visto</h2>
+      {% if piu_visto %}
+        <p>{{ piu_visto.titolo }} ({{ piu_visto.biglietti }} biglietti)</p>
+      {% else %}
+        <p>Nessun biglietto venduto</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<h2>Incasso per film</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Numero</th>
+      <th>Film</th>
+      <th>Biglietti</th>
+      <th>Incasso</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for riga in per_film %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ riga.titolo }}</td>
+        <td>{{ riga.biglietti }}</td>
+        <td>€ {{ riga.incasso }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 class="mt-5">Riempimento spettacoli</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Film</th>
+      <th>Data</th>
+      <th>Sala</th>
+      <th>Posti venduti</th>
+      <th>Riempimento</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in riempimenti %}
+      <tr>
+        <td>
+          <a href="{{ url_for('pagina_spettacolo', id_spettacolo=s.id_spettacolo) }}">
+            {{ s.titolo }}
+          </a>
+        </td>
+        <td>{{ s.data_ora.strftime('%d/%m/%Y %H:%M') }}</td>
+        <td>{{ s.nome_sala }}</td>
+        <td>{{ s.venduti }} su {{ s.posti }}</td>
+        <td>
+          {% if s.percentuale >= 80 %}
+            <span class="badge text-bg-danger">{{ s.percentuale }}%</span>
+          {% else %}
+            <span class="badge text-bg-secondary">{{ s.percentuale }}%</span>
+          {% endif %}
+        </td>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="5">Non ci sono ancora biglietti venduti.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
