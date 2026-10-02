@@ -14,7 +14,18 @@
 
     <!-- titolo, regista, genere, durata, trama.-->
      <div class="col-md-8">
-
+        <h2 class="fw-bold mb-2 mt-2">{{film.titolo}}</h2>
+        <p class="mb-2"><strong>Regista: </strong>{{film.regista}}</p>
+        <span class="badge mb-2 bg-warning text-dark">{{film.genere}}</span>
+        <span class="ms-2 text-muted">{{film.durata_min}} min</span>
+        <h5>Trama:</h5>
+        <p class="text-secondary">{{film.trama}}</p>
+        <!--strong aggiunge importanza mentre fw-bold incide solo sull'aspetto visivo-->
+        {% if spettacoli%}
+        <a href="{{ url_for('spettacolo', id_spettacolo=spettacoli[0].id_spettacolo) }}" class="btn btn-success">Vedi spettacoli</a>
+        {% else %}
+        <p class="text-muted">Nessuno spettacolo disponibile al momento</p>
+        {% endif %}
      </div>
 </div>
 
