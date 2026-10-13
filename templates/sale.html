@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block titolo %}Le sale · Cinema Aurora{% endblock %}
+
+{% block contenuto %}
+
+<p class="eyebrow">I NOSTRI SPAZI</p>
+<h1 class="fw-bold mb-4">Le sale</h1>
+
+<div class="row row-cols-1 row-cols-lg-3 g-4">
+
+  {% for sala in sale %}
+    <div class="col">
+      <section class="card detail-card h-100 shadow-sm">
+        <div class="card-body p-4">
+
+          <h2 class="h4 fw-bold">{{ sala.nome }}</h2>
+
+          <p class="text-secondary">
+            {{ sala.posti }} posti ·
+            {{ sala.numero_spettacoli }} spettacoli in programma
+          </p>
+
+          <hr>
+
+          <h3 class="h6 fw-bold">Spettacoli</h3>
+
+          {% if sala.numero_spettacoli == 0 %}
+            <p class="text-secondary">
+              Nessuno spettacolo in programma.
+            </p>
+          {% endif %}
+
+          {% for s in spettacoli %}
+            {% if s.id_sala == sala.id_sala %}
+              <div class="border-bottom py-3">
+
+                <strong>{{ s.titolo }}</strong>
+
+                <p class="text-secondary mb-1">
+                  {{ s.data_ora.strftime('%d/%m/%Y alle %H:%M') }}
+                </p>
+
+                <a href="{{ url_for('spettacolo', id_spettacolo=s.id_spettacolo) }}">
+                  Posti e biglietti →
+                </a>
+
+              </div>
+            {% endif %}
+          {% endfor %}
+
+        </div>
+      </section>
+    </div>
+
+  {% else %}
+    <div class="col">
+      <p>Nessuna sala disponibile.</p>
+    </div>
+  {% endfor %}
+
+</div>
+
+{% endblock %}
