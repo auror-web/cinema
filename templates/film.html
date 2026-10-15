@@ -22,7 +22,19 @@
         <p class="text-secondary">{{film.trama}}</p>
         <!--strong aggiunge importanza mentre fw-bold incide solo sull'aspetto visivo-->
         {% if spettacoli%}
-        <a href="{{ url_for('spettacolo', id_spettacolo=spettacoli[0].id_spettacolo) }}" class="btn btn-success">Vedi spettacoli</a>
+                <div class="list-group mb-3">
+    {% for s in spettacoli %}
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>Sala:</strong> {{ s.nome_sala }} <br>
+          <small class="text-muted">{{ s.data_ora.strftime('%d/%m/%Y alle %H:%M') }}</small>
+        </div>
+        <a href="{{ url_for('spettacolo', id_spettacolo=s.id_spettacolo) }}" class="btn btn-sm btn-success">
+          Dettagli e biglietti
+        </a>
+      </div>
+    {% endfor %}
+  </div>
         {% else %}
         <p class="text-muted">Nessuno spettacolo disponibile al momento</p>
         {% endif %}

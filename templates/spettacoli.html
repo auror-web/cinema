@@ -6,6 +6,10 @@
 
 {% block contenuto %}
 
+    <div id="messaggioConferma" class="alert alert-success d-none" role="alert">
+      Acquisto effettuato! 🎉
+    </div>
+
 {% set totale = spettacolo.posti | int %}
 {% set venduti = bigliettI | int %}
 {% set liberi = [totale - venduti, 0] | max %}
@@ -68,6 +72,8 @@
       </div>
     </div>
 
+
+
     {% if liberi > 0 %}
 
       {% if liberi < 5 %}
@@ -76,10 +82,10 @@
         </div>
       {% endif %}
 
-      <a class="btn btn-success btn-lg"
-         href="{{ url_for('acquista', id_spettacolo=spettacolo.id_spettacolo) }}">
+
+      <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#confermaAcquistoModal">
         Acquista 1 biglietto
-      </a>
+      </button>
 
     {% else %}
 
@@ -89,5 +95,39 @@
 
   </div>
 </section>
+
+<!-- MODALE -->
+<div class="modal fade" id="confermaAcquistoModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="modalLabel">Conferma Acquisto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+      </div>
+      <div class="modal-body">
+        Sei sicuro di voler acquistare un biglietto per <strong>{{ spettacolo.titolo }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <!-- Pulsante Sì trasformato in bottone con data-bs-dismiss per chiudere il modale -->
+        <button type="button" class="btn btn-success" id="btnConfermaSii" data-bs-dismiss="modal">
+          Sì
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT JAVASCRIPT PER MOSTRARE L'ALERT -->
+<script>
+  document.getElementById('btnConfermaSii').addEventListener('click', function() {
+    var alertBox = document.getElementById('messaggioConferma');
+    alertBox.classList.remove('d-none');
+
+    setTimeout(function(){
+      alertBox.classList.add('d-none');
+    }, 3000);
+  });
+</script>
 
 {% endblock %}

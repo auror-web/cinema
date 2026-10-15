@@ -11,9 +11,14 @@
 
   {% for sala in sale %}
     <div class="col">
-      <section class="card detail-card h-100 shadow-sm">
-        <div class="card-body p-4">
+      <section class="card detail-card h-100 shadow-sm 
+    {% if 'Verde' in sala.nome %} border-success bg-success bg-opacity-10
+    {% elif 'Blu' in sala.nome %} border-primary bg-primary bg-opacity-10
+    {% elif 'Studio' in sala.nome %} border-warning bg-warning bg-opacity-10
+    {% else %} border-dark bg-secondary bg-opacity-10 {% endif %}">
 
+        <div class="card-body p-4">
+          
           <h2 class="h4 fw-bold">{{ sala.nome }}</h2>
 
           <p class="text-secondary">
