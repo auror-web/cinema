@@ -50,10 +50,13 @@ Il database relazionale denominato `cinema` gestisce le seguenti tabelle:
    ```
 
 2. Spostati nella cartella del progetto e attiva il tuo ambiente virtuale (venv).
+    ```bash
+    .\venv\Scripts\Activate
+    ```
 
 3. Installa le dipendenze richieste con:
     ```bash
-    pip install flask mysql-connector-python
+    pip install -r requirements.txt
     ```
 
 4. Configura il database MySQL in locale (cinema) utilizzando gli script SQL predisposti.
